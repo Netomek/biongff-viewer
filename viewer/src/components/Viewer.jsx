@@ -144,6 +144,8 @@ export const Viewer = ({
       .flat();
   }, [colors, isLabel, layerStates]);
 
+  const units = {"micrometer" : "μm", "nanometer" : "nm", "millimeter": "mm"}
+
   const deckLayers = useMemo(() => {
     if (sourceData.length > 1 || !layers.length || !viewState) {
       return layers;
@@ -153,7 +155,7 @@ export const Viewer = ({
       const scalebar = new ScaleBarLayer({
         id: 'scalebar',
         size: size / layers[0].props.modelMatrix[0],
-        unit: unit,
+        unit: " " + units[unit],
         viewState: viewState,
       });
       return [...layers, scalebar];

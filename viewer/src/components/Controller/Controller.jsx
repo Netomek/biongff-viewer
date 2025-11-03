@@ -22,9 +22,11 @@ export const Controller = ({
   setLayerSelections,
   toggleChannelVisibility,
   setChannelContrast,
+
 }) => {
+  const [hidden, toggleMenuView] = React.useReducer((v) => !v, false);
   const controls = layerStates.map((layerState, index) => {
-    if (!layerState) {
+    if (!layerState || hidden) {
       return null;
     }
     return (
@@ -112,6 +114,9 @@ export const Controller = ({
         <FormGroup>{controls}</FormGroup>
         <button type="button" className="btn" onClick={resetViewState}>
           Reset view
+        </button>
+        <button type="button" className="btn" onClick={toggleMenuView}>
+          {hidden ? "Show" : "Hide"} menu
         </button>
       </Stack>
     </div>

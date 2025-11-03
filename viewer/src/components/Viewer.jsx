@@ -185,7 +185,7 @@ export const Viewer = ({
   }, [layers, resetViewState, viewState]);
 
   const getTooltip = ({ layer, index, label, value }) => {
-    if (!layer || !index) {
+    if (!layer || !index || !label) {
       return null;
     }
     return {

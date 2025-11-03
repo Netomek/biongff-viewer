@@ -62,10 +62,12 @@ export const Viewer = ({
           }
         });
       }
+  
+      let raw_index = 0;
       const ls = sourceData.map((d, index) => {
         if (!d) return null;
         return initLayerStateFromSource({
-          id: `raw-${index}`,
+          id: d.name ? d.name : `raw-${raw_index++}`,
           ...d,
           labels: isLabel?.[index]
             ? [

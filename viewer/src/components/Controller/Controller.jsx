@@ -82,7 +82,7 @@ export const Controller = ({
               {i > 0 && <Divider />}
               <FormControlLabel
                 key={label.layerProps.id}
-                label={`${label.layerProps.id} (label)`}
+                label={`${sourceData[index].labels[i].name ? sourceData[index].labels[i].name : label.layerProps.id + " (label)"}`}
                 control={
                   <Checkbox
                     label={label.layerProps.id}

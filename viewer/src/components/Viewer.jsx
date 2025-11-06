@@ -64,11 +64,14 @@ export const Viewer = ({
         });
       }
   
-      let raw_index = 0;
+      let nameList = [];
       const ls = sourceData.map((d, index) => {
         if (!d) return null;
+        let name = d.name ?? "raw", copyIndex = nameList.reduce((acc, x) => acc + (name == x ? 1 : 0), 0);
+        nameList.push(name);
+        if(copyIndex) name += "-" + String(copyIndex);
         return initLayerStateFromSource({
-          id: d.name ? d.name : `raw-${raw_index++}`,
+          id: name,
           ...d,
           labels: isLabel?.[index]
             ? [
@@ -290,6 +293,8 @@ export const Viewer = ({
     });
   };
 
+  const [hiddenPictureInPicture, togglePictureInPicture] = React.useReducer((v) => !v, false);
+
   const toggleChannelVisibility = (index, channelIndex) => {
     setLayerStates((prev) => {
       return prev.map((state, i) => {
@@ -398,7 +403,10 @@ export const Viewer = ({
         toggleChannelVisibility={toggleChannelVisibility}
         setChannelContrast={setChannelContrast}
         copyLink={copyLink}
+        togglePictureInPicture={togglePictureInPicture}
+        hiddenPictureInPicture={hiddenPictureInPicture}
       />
+
       <DeckGL
         ref={deckRef}
         layers={deckLayers}

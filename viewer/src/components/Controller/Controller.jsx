@@ -3,10 +3,12 @@ import React from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Checkbox from '@mui/material/Checkbox';
+import Box from '@mui/material/box';
 import Divider from '@mui/material/Divider';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
 
 import { AxisSliders } from './AxisSliders';
 import { ChannelControllers } from './ChannelControllers';
@@ -23,8 +25,11 @@ export const Controller = ({
   toggleChannelVisibility,
   setChannelContrast,
   copyLink,
+  togglePictureInPicture,
+  hiddenPictureInPicture,
 }) => {
   const [hiddenMenu, toggleMenuView] = React.useReducer((v) => !v, false);
+
   const controls = layerStates.map((layerState, index) => {
     if (!layerState || hiddenMenu) {
       return null;
@@ -33,9 +38,16 @@ export const Controller = ({
     const lowest_level = sourceData[index]?.loader[0].shape, levels = sourceData[index]?.loader.length;
     return (
       <React.Fragment key={layerState.layerProps.id}>
+      <Box
+          style= {{width: "250px",
+              border: "3px solid white",
+              padding: "25px",
+              paddingTop: "0px",
+              marginTop: "10px"
+              }}>
         <h3 style={{color: "red", marginBottom: "0px", marginTop: "20px"}}>
             Source {index} </h3>
-        <p> layers = {levels} <br/> deepest size = {lowest_level[lowest_level.length - 1]} * {lowest_level[lowest_level.length - 2]}</p>
+        <p> Pyramid height: {levels} <br/> Full size: {lowest_level[lowest_level.length - 1]}x{lowest_level[lowest_level.length - 2]}</p>
         {!isLabel[index] && (
           <>
             <FormControlLabel
@@ -83,6 +95,7 @@ export const Controller = ({
                 id: label.layerProps.id,
                 on: label.on,
               };
+          console.log("label.id = ", label.layerProps.id)
           return (
             <React.Fragment key={label.layerProps.id}>
               {i > 0 && <Divider />}
@@ -108,23 +121,37 @@ export const Controller = ({
             </React.Fragment>
           );
         })}
+      </Box>
       </React.Fragment>
     );
   });
 
   return (
-    <div className="viewer-controller">
+    <div className="viewer-controller" style={{width: "300px"}}>
       <Stack spacing={2}>
-        <FormGroup>{controls}</FormGroup>
-        <button type="button" className="btn" onClick={resetViewState}>
-          Reset view
+        <Grid container spacing={2} style={{marginLeft: "10px"}}>
+        <Grid size={5}>
+        <button type="button" className="btn" onClick={resetViewState} style={{height: "100%"}}>
+          Reset current view
         </button>
+        </Grid>
+        <Grid size={5}>
         <button type="button" className="btn" onClick={copyLink}>
           Copy link with current view
         </button>
-        <button type="button" className="btn" onClick={toggleMenuView}>
-          {hiddenMenu ? "Show" : "Hide"} menu
+        </Grid>
+        <Grid size={5}>
+        <button type="button" className="btn" onClick={togglePictureInPicture}>
+          {hiddenPictureInPicture ? "Show" : "Hide"} picture in picture
         </button>
+        </Grid>
+        <Grid size={5}>
+        <button type="button" className="btn" onClick={toggleMenuView}>
+          {hiddenMenu ? "Show" : "Hide"} channel controls
+        </button>
+        </Grid>
+        </Grid>
+        <FormGroup>{controls}</FormGroup>
       </Stack>
     </div>
   );

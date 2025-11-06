@@ -115,6 +115,9 @@ export const Controller = ({
         <button type="button" className="btn" onClick={resetViewState}>
           Reset view
         </button>
+        <button type="button" className="btn" onClick={copyLink}>
+          Copy link with current view
+        </button>
         <button type="button" className="btn" onClick={toggleMenuView}>
           {hiddenMenu ? "Show" : "Hide"} menu
         </button>

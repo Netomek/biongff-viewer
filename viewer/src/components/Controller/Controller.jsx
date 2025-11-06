@@ -95,7 +95,6 @@ export const Controller = ({
                 id: label.layerProps.id,
                 on: label.on,
               };
-          console.log("label.id = ", label.layerProps.id)
           return (
             <React.Fragment key={label.layerProps.id}>
               {i > 0 && <Divider />}

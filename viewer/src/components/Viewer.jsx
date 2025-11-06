@@ -34,6 +34,7 @@ export const Viewer = ({
   isLabel = null,
   modelMatrices = null,
   colors = null,
+  hrefView,
 }) => {
   const deckRef = useRef(null);
   const [viewState, setViewState] = useState(null);
@@ -180,9 +181,19 @@ export const Viewer = ({
     });
   }, [layers]);
 
+  const setViewFromHref = useCallback(() => {
+    setViewState({
+      target: hrefView.target,
+      zoom: hrefView.zoom,
+      width: deck.width,
+      height: deck.height,
+    });
+  });
+
   useEffect(() => {
-    if (deckRef.current?.deck && !viewState && layers?.[0]) {
-      resetViewState();
+    if (deckRef.current?.deck && !viewState && layers?.[0]){
+      if(!hrefView) resetViewState();
+      else setViewFromHref();
     }
   }, [layers, resetViewState, viewState]);
 
@@ -316,6 +327,22 @@ export const Viewer = ({
       });
     });
   };
+
+  const copyLink = () => {
+      const link = new URL(window.location.href)
+      link.searchParams.set("viewState", JSON.stringify(viewState));
+      const text = decodeURIComponent(link.href)
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed"; // Prevent scrolling to bottom of page
+      textarea.style.opacity = "0"; // Make it invisible
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+  };
+
   const { near, far } = useMemo(() => {
     if (!layers?.length) {
       return { near: 0.1, far: 1000 };
@@ -370,6 +397,7 @@ export const Viewer = ({
         setLayerSelections={setLayerSelections}
         toggleChannelVisibility={toggleChannelVisibility}
         setChannelContrast={setChannelContrast}
+        copyLink={copyLink}
       />
       <DeckGL
         ref={deckRef}

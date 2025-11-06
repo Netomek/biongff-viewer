@@ -22,7 +22,7 @@ export const Controller = ({
   setLayerSelections,
   toggleChannelVisibility,
   setChannelContrast,
-
+  copyLink,
 }) => {
   const [hiddenMenu, toggleMenuView] = React.useReducer((v) => !v, false);
   const controls = layerStates.map((layerState, index) => {

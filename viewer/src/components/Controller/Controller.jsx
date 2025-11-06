@@ -29,9 +29,13 @@ export const Controller = ({
     if (!layerState || hiddenMenu) {
       return null;
     }
+
+    const lowest_level = sourceData[index]?.loader[0].shape, levels = sourceData[index]?.loader.length;
     return (
       <React.Fragment key={layerState.layerProps.id}>
-        <p>Source {index}</p>
+        <h3 style={{color: "red", marginBottom: "0px", marginTop: "20px"}}>
+            Source {index} </h3>
+        <p> layers = {levels} <br/> deepest size = {lowest_level[lowest_level.length - 1]} * {lowest_level[lowest_level.length - 2]}</p>
         {!isLabel[index] && (
           <>
             <FormControlLabel

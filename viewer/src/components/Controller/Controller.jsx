@@ -39,7 +39,7 @@ export const Controller = ({
     return (
       <React.Fragment key={layerState.layerProps.id}>
       <Box
-          style= {{width: "250px",
+          style= {{width: "290px",
               border: "3px solid white",
               padding: "25px",
               paddingTop: "0px",
@@ -126,9 +126,11 @@ export const Controller = ({
   });
 
   return (
-    <div className="viewer-controller" style={{width: "300px"}}>
+    <div className="viewer-controller" style={{width: "350px", border: "1px solid green"}}>
       <Stack spacing={2}>
-        <Grid container spacing={2} style={{marginLeft: "10px"}}>
+        <FormGroup>{controls}</FormGroup>
+      </Stack>
+      <Grid container spacing={2} style={{position: "fixed", bottom: "15px", width: "350px"}}>
         <Grid size={5}>
         <button type="button" className="btn" onClick={resetViewState} style={{height: "100%"}}>
           Reset current view
@@ -150,8 +152,6 @@ export const Controller = ({
         </button>
         </Grid>
         </Grid>
-        <FormGroup>{controls}</FormGroup>
-      </Stack>
     </div>
   );
 };

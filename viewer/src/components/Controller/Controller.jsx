@@ -3,7 +3,7 @@ import React from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Checkbox from '@mui/material/Checkbox';
-import Box from '@mui/material/box';
+import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
@@ -126,7 +126,7 @@ export const Controller = ({
   });
 
   return (
-    <div className="viewer-controller" style={{width: "350px", border: "1px solid green"}}>
+    <div className="viewer-controller" style={{width: "350px"}}>
       <Stack spacing={2}>
         <FormGroup>{controls}</FormGroup>
       </Stack>

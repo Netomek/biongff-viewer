@@ -158,6 +158,7 @@ export const Viewer = ({
     }
     if (layers[0].props.loader?.[0]?.meta?.physicalSizes?.x) {
       const { size, unit } = layers[0].props.loader[0].meta.physicalSizes.x;
+      if(!units[unit]) return layers;
       const scalebar = new ScaleBarLayer({
         id: 'scalebar',
         size: size / layers[0].props.modelMatrix[0],

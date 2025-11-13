@@ -143,7 +143,8 @@ export const Controller = ({
         </Grid>
         <Grid size={5}>
         <button type="button" className="btn" onClick={togglePictureInPicture} disabled>
-          {hiddenPictureInPicture ? "Show" : "Hide"} picture in picture
+          {"Disabled feature" //{hiddenPictureInPicture ? "Show" : "Hide"} picture in picture}
+          }
         </button>
         </Grid>
         <Grid size={5}>

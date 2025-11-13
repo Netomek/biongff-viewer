@@ -294,7 +294,7 @@ export const Viewer = ({
     });
   };
 
-  const [hiddenPictureInPicture, togglePictureInPicture] = React.useReducer((v) => !v, false);
+  const [hiddenPictureInPicture, togglePictureInPicture] = React.useReducer((v) => !v, true);
 
   const toggleChannelVisibility = (index, channelIndex) => {
     setLayerStates((prev) => {

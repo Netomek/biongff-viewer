@@ -199,7 +199,7 @@ export const Viewer = ({
       if(!hrefView) resetViewState();
       else setViewFromHref();
     }
-  }, [layers, resetViewState, viewState]);
+  }, [layers, resetViewState, setViewFromHref, viewState]);
 
   const getTooltip = ({ layer, index, label, value }) => {
     if (!layer || !index || !label) {
@@ -417,6 +417,9 @@ export const Viewer = ({
           new OrthographicView({ id: 'ortho', controller: true, near, far }),
         ]}
         getTooltip={getTooltip}
+        getCursor={({ isDragging }) => {
+          return isDragging ? 'grabbing' : 'crosshair';
+        }}
       />
     </div>
   );

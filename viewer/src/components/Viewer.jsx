@@ -390,8 +390,8 @@ export const Viewer = ({
     const padding = deckRef.current.deck.width < 400 ? 10 : deckRef.current.deck.width < 600 ? 30 : 50;
     const scale = Math.pow(2, Math.log2(Math.min((viewState.width - 2 * padding) / width, (viewState.height - 2 * padding) / height)) - viewState.zoom);
 
-    const mapview = {top: viewState.target[1] * overview_height / height - overview_height / 2,
-                        left: viewState.target[0] * overview_width / width - overview_width / 2,
+    const mapview = {top: (viewState.target[1] - height / 2) * overview_height / height,
+                        left: (viewState.target[0] - width / 2) * overview_width / width,
                         width: overview_width * scale - 6,
                         height: overview_height * scale - 6
                         };

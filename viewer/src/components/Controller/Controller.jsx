@@ -25,8 +25,8 @@ export const Controller = ({
   toggleChannelVisibility,
   setChannelContrast,
   copyLink,
-  togglePictureInPicture,
-  hiddenPictureInPicture,
+  toggleOverview,
+  overviewOn,
 }) => {
   const [hiddenMenu, toggleMenuView] = React.useReducer((v) => !v, false);
 
@@ -142,8 +142,8 @@ export const Controller = ({
         </button>
         </Grid>
         <Grid size={5}>
-        <button type="button" className="btn" onClick={togglePictureInPicture}>
-          {hiddenPictureInPicture ? "Show" : "Hide"} picture in picture
+        <button type="button" className="btn" onClick={toggleOverview}>
+          {overviewOn ? "Show" : "Hide"} overview
         </button>
         </Grid>
         <Grid size={5}>

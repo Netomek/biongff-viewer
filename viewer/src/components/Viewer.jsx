@@ -294,7 +294,7 @@ export const Viewer = ({
     });
   };
 
-  const [hiddenPictureInPicture, togglePictureInPicture] = React.useReducer((v) => !v, true);
+  const [overviewOn, toggleOverview] = React.useReducer((v) => !v, false);
 
   const toggleChannelVisibility = (index, channelIndex) => {
     setLayerStates((prev) => {
@@ -380,7 +380,7 @@ export const Viewer = ({
 
   const views = [new OrthographicView({ id: 'ortho', controller: true, near, far })];
   const div_map_props = [];
-  if(!hiddenPictureInPicture && viewState){
+  if(overviewOn && viewState){
     const matrix_transform = (layers?.[0]?.props.modelMatrix ?? new Matrix4().identity());
     const [width, height] =  matrix_transform.transformAsPoint([getLayerSize(layers[0]).width,getLayerSize(layers[0]).height]);
 
@@ -440,8 +440,8 @@ export const Viewer = ({
         toggleChannelVisibility={toggleChannelVisibility}
         setChannelContrast={setChannelContrast}
         copyLink={copyLink}
-        togglePictureInPicture={togglePictureInPicture}
-        hiddenPictureInPicture={hiddenPictureInPicture}
+        toggleOverview={toggleOverview}
+        overviewOn={overviewOn}
       />
 
       <DeckGL
@@ -457,7 +457,7 @@ export const Viewer = ({
       />
 
         {
-        !hiddenPictureInPicture && viewState &&
+        !overviewOn && viewState &&
         <div style={div_map_props[0]}>
           <div style={div_map_props[1]}></div>
         </div>

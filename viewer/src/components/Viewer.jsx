@@ -393,8 +393,8 @@ export const Viewer = ({
     const overview_padding = 6;
     const mapview = {top: (viewState.target[1]) * overview_height / height - overview_height * scale / 2,
                         left: (viewState.target[0]) * overview_width / width - overview_width * scale / 2,
-                        width: overview_width * scale < overview_width ? overview_width * scale : overview_width - overview_padding,
-                        height: overview_height * scale < overview_height ? overview_height * scale : overview_height - overview_padding
+                        width: overview_width * scale - overview_padding,
+                        height: overview_height * scale - overview_padding
                         };
     if(mapview.top < 0){
         mapview.height += mapview.top;
@@ -457,7 +457,7 @@ export const Viewer = ({
       />
 
         {
-        !overviewOn && viewState &&
+        overviewOn && viewState &&
         <div style={div_map_props[0]}>
           <div style={div_map_props[1]}></div>
         </div>

@@ -142,8 +142,8 @@ export const Controller = ({
         </button>
         </Grid>
         <Grid size={5}>
-        <button type="button" className="btn" onClick={toggleOverview}>
-          {overviewOn ? "Show" : "Hide"} overview
+        <button type="button" className="btn" onClick={toggleOverview} style={{height: "100%"}}>
+          {!overviewOn ? "Show" : "Hide"} overview
         </button>
         </Grid>
         <Grid size={5}>

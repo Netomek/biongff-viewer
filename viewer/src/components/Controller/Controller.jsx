@@ -47,7 +47,7 @@ export const Controller = ({
               }}>
         <h3 style={{color: "red", marginBottom: "0px", marginTop: "20px"}}>
             Source {index} </h3>
-        <p> Pyramid height: {levels} <br/> Full size: {lowest_level[lowest_level.length - 1]}x{lowest_level[lowest_level.length - 2]}</p>
+        {lowest_level && <p> Pyramid height: {levels} <br/> Full size: {lowest_level[lowest_level.length - 1]}x{lowest_level[lowest_level.length - 2]}</p>}
         {!isLabel[index] && (
           <>
             <FormControlLabel

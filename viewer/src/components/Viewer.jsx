@@ -378,6 +378,30 @@ export const Viewer = ({
     };
   }, [layers]);
 
+  const views = [new OrthographicView({ id: 'ortho', controller: true, near, far })];
+  const div_map_props = [];
+  if(!hiddenPictureInPicture && viewState){
+    const matrix_transform = (layers?.[0]?.props.modelMatrix ?? new Matrix4().identity());
+    const [width, height] =  matrix_transform.transformAsPoint([getLayerSize(layers[0]).width,getLayerSize(layers[0]).height]);
+
+    const overview_width = 0.15 * viewState.width, overview_height = overview_width * height / width;
+    div_map_props.push({position: "absolute", bottom: "20px", left: "20vw", width: overview_width, height: overview_height, border: "3px solid yellow"});
+
+    const padding = deckRef.current.deck.width < 400 ? 10 : deckRef.current.deck.width < 600 ? 30 : 50;
+    const scale = Math.pow(2, Math.log2(Math.min((viewState.width - 2 * padding) / width, (viewState.height - 2 * padding) / height)) - viewState.zoom);
+
+    const mapview = {top: viewState.target[1] * overview_height / height - overview_height / 2,
+                        left: viewState.target[0] * overview_width / width - overview_width / 2,
+                        width: overview_width * scale - 6,
+                        height: overview_height * scale - 6
+                        };
+
+    div_map_props.push({position: "absolute", top: mapview.top,left: mapview.left, width: mapview.width, height: mapview.height, border: "3px solid red"});
+
+    views.push(new OrthographicView({ id: 'overview', controller: false, width: 2 * overview_width, height: 2 * overview_height, x: 0.2 * viewState.width - overview_width, y: viewState.height - 2 * overview_height - 20,
+        zoom: Math.log2(overview_width / width)}))
+    }
+
   if (isLoading) {
     return (
       <div>
@@ -413,14 +437,19 @@ export const Viewer = ({
         layers={deckLayers}
         viewState={viewState && { ortho: viewState }}
         onViewStateChange={(e) => setViewState(e.viewState)}
-        views={[
-          new OrthographicView({ id: 'ortho', controller: true, near, far }),
-        ]}
+        views={views}
         getTooltip={getTooltip}
         getCursor={({ isDragging }) => {
           return isDragging ? 'grabbing' : 'crosshair';
         }}
       />
+
+        {
+        !hiddenPictureInPicture && viewState &&
+        <div style={div_map_props[0]}>
+          <div style={div_map_props[1]}></div>
+        </div>
+        }
     </div>
   );
 };

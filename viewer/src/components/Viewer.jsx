@@ -390,13 +390,25 @@ export const Viewer = ({
     const padding = deckRef.current.deck.width < 400 ? 10 : deckRef.current.deck.width < 600 ? 30 : 50;
     const scale = Math.pow(2, Math.log2(Math.min((viewState.width - 2 * padding) / width, (viewState.height - 2 * padding) / height)) - viewState.zoom);
 
-    const mapview = {top: (viewState.target[1] - height / 2) * overview_height / height,
-                        left: (viewState.target[0] - width / 2) * overview_width / width,
-                        width: overview_width * scale - 6,
-                        height: overview_height * scale - 6
+    const overview_padding = 6;
+    const mapview = {top: (viewState.target[1]) * overview_height / height - overview_height * scale / 2,
+                        left: (viewState.target[0]) * overview_width / width - overview_width * scale / 2,
+                        width: overview_width * scale < overview_width ? overview_width * scale : overview_width - overview_padding,
+                        height: overview_height * scale < overview_height ? overview_height * scale : overview_height - overview_padding
                         };
+    if(mapview.top < 0){
+        mapview.height += mapview.top;
+        mapview.top = 0;
+        }
+    mapview.height = Math.min(overview_height - overview_padding - mapview.top, mapview.height);
+    if(mapview.left < 0){
+        mapview.width += mapview.left;
+        mapview.left = 0;
+        }
+    mapview.width = Math.min(overview_width - overview_padding - mapview.left, mapview.width);
 
-    div_map_props.push({position: "absolute", top: mapview.top,left: mapview.left, width: mapview.width, height: mapview.height, border: "3px solid red"});
+    if(mapview.top < overview_height - overview_padding && mapview.left < overview_width - overview_padding)
+        div_map_props.push({position: "absolute", top: mapview.top,left: mapview.left, width: mapview.width, height: mapview.height, border: "3px solid red"});
 
     views.push(new OrthographicView({ id: 'overview', controller: false, width: 2 * overview_width, height: 2 * overview_height, x: 0.2 * viewState.width - overview_width, y: viewState.height - 2 * overview_height - 20,
         zoom: Math.log2(overview_width / width)}))

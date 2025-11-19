@@ -171,6 +171,10 @@ export const Viewer = ({
     return layers;
   }, [layers, sourceData.length, viewState]);
 
+  const layerFilter = useCallback(({layer, viewport}) => {
+    return (viewport.id != 'overview') || (viewport.id == 'overview' && layer.id != 'scalebar');
+  })
+
   const resetViewState = useCallback(() => {
     const { deck } = deckRef.current;
     setViewState({
@@ -186,6 +190,7 @@ export const Viewer = ({
   }, [layers]);
 
   const setViewFromHref = useCallback(() => {
+    const { deck } = deckRef.current;
     setViewState({
       target: hrefView.target,
       zoom: hrefView.zoom,
@@ -447,7 +452,7 @@ export const Viewer = ({
       <DeckGL
         ref={deckRef}
         layers={deckLayers}
-        viewState={viewState && { ortho: viewState }}
+        layerFilter={layerFilter}
         onViewStateChange={(e) => setViewState(e.viewState)}
         views={views}
         getTooltip={getTooltip}

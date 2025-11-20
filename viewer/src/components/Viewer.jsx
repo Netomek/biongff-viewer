@@ -400,8 +400,9 @@ export const Viewer = ({
     const matrix_transform = (layers?.[0]?.props.modelMatrix ?? new Matrix4().identity());
     const [width, height] =  matrix_transform.transformAsPoint([getLayerSize(layers[0]).width,getLayerSize(layers[0]).height]);
 
-    const overview_width = 0.15 * viewState.width, overview_height = overview_width * height / width;
-    div_map_props.push({position: "absolute", bottom: "20px", left: "20vw", width: overview_width, height: overview_height, border: "3px solid yellow"});
+    const overview_width = 0.2 * viewState.width, overview_height = overview_width * height / width;
+
+    div_map_props.push({position: "absolute", top: "20px", right: "20px", width: overview_width, height: overview_height, border: "3px solid yellow"});
 
     const padding = deckRef.current.deck.width < 400 ? 10 : deckRef.current.deck.width < 600 ? 30 : 50;
     const scale = Math.pow(2, Math.log2(Math.min((viewState.width - 2 * padding) / width, (viewState.height - 2 * padding) / height)) - viewState.zoom);

@@ -452,6 +452,7 @@ export const Viewer = ({
       <DeckGL
         ref={deckRef}
         layers={deckLayers}
+        viewState={{ortho: viewState,overview: {}}}
         layerFilter={layerFilter}
         onViewStateChange={(e) => setViewState(e.viewState)}
         views={views}

@@ -392,6 +392,8 @@ export const Viewer = ({
     };
   }, [layers]);
 
+  let moveOnOverview = () => {};
+
   const views = [new OrthographicView({ id: 'ortho', controller: true, near, far })];
   const div_map_props = [];
   if(overviewOn && viewState){
@@ -411,21 +413,29 @@ export const Viewer = ({
                         height: overview_height * scale - overview_padding
                         };
     if(mapview.top < 0){
-        mapview.height += mapview.top;
-        mapview.top = 0;
-        }
+      mapview.height += mapview.top;
+      mapview.top = 0;
+      }
     mapview.height = Math.min(overview_height - overview_padding - mapview.top, mapview.height);
     if(mapview.left < 0){
-        mapview.width += mapview.left;
-        mapview.left = 0;
-        }
+      mapview.width += mapview.left;
+      mapview.left = 0;
+      }
     mapview.width = Math.min(overview_width - overview_padding - mapview.left, mapview.width);
 
     if(mapview.top < overview_height - overview_padding && mapview.left < overview_width - overview_padding)
-        div_map_props.push({position: "absolute", top: mapview.top,left: mapview.left, width: mapview.width, height: mapview.height, border: "3px solid red"});
+      div_map_props.push({position: "absolute", top: mapview.top,left: mapview.left, width: mapview.width, height: mapview.height, border: "3px solid red"});
 
-    views.push(new OrthographicView({ id: 'overview', controller: false, width: 2 * overview_width, height: 2 * overview_height, x: 0.2 * viewState.width - overview_width, y: viewState.height - 2 * overview_height - 20,
-        zoom: Math.log2(overview_width / width)}))
+    views.push(new OrthographicView({ id: 'overview', controller: false, width: 2 * overview_width, height: 2 * overview_height, x: viewState.width - 2 * overview_width - 20, y: 20 - overview_height,
+      zoom: Math.log2(overview_width / width)}))
+
+    moveOnOverview = (event) => {
+      const clickX = event.clientX - viewState.width + 20 + overview_width;
+      const clickY = event.clientY - 20;
+      const clickScale = [width / overview_width, height / overview_height]
+
+      setViewState({...viewState, target: [clickScale[0] * clickX , clickScale[1] * clickY]})
+      };
     }
 
   if (isLoading) {
@@ -470,10 +480,9 @@ export const Viewer = ({
           return isDragging ? 'grabbing' : 'crosshair';
         }}
       />
-
         {
         overviewOn && viewState &&
-        <div style={div_map_props[0]}>
+        <div style={div_map_props[0]} onClick={moveOnOverview}>
           <div style={div_map_props[1]}></div>
         </div>
         }

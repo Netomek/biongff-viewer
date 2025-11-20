@@ -143,6 +143,15 @@ export const Viewer = ({
                     : null;
                 })
               : []),
+              new LayerStateMap[layerState.kind]({
+              ...layerState.layerProps,
+              id: layerState.layerProps.id + "-OVERVIEW",
+              visible: true,
+              pickable: false,
+              ...(layerState.kind === 'multiscale'
+                ? { excludeBackground: true }
+                : {}),
+            })
           ];
         }
         return [];
@@ -172,7 +181,7 @@ export const Viewer = ({
   }, [layers, sourceData.length, viewState]);
 
   const layerFilter = useCallback(({layer, viewport}) => {
-    return (viewport.id != 'overview') || (viewport.id == 'overview' && layer.id != 'scalebar');
+    return (viewport.id == 'overview') == (layer.id.slice(-9) == '-OVERVIEW');
   })
 
   const resetViewState = useCallback(() => {
